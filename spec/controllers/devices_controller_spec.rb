@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe DevicesController, type: :controller do
   let(:api_key) { create(:api_key) }
   let(:user) { api_key.bearer }
+  let(:device) { create(:device, serial_number: '123456', user: nil) }
 
 
   describe 'POST #assign' do
