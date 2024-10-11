@@ -17,7 +17,6 @@ RSpec.describe AssignDeviceToUser do
   context 'when users registers a device to other user' do
     let(:new_device_owner_id) { create(:user).id }
     let!(:device) { create(:device, serial_number: serial_number, user: nil) }
-
     it 'raises an error' do
       expect { assign_device }.to raise_error(RegistrationError::Unauthorized)
     end
@@ -26,7 +25,6 @@ RSpec.describe AssignDeviceToUser do
   context 'when user registers a device on self' do
     let(:new_device_owner_id) { user.id }
     let!(:device) { create(:device, serial_number: serial_number, user: nil) }
-
     it 'creates a new device' do
       assign_device
 
@@ -35,9 +33,7 @@ RSpec.describe AssignDeviceToUser do
 
     context 'when a user tries to register a device that was already assigned to and returned by the same user' do
       before do
-        # Assign the device to the user
         assign_device
-        # Simulate returning the device
         ReturnDeviceFromUser.new(user: user, serial_number: serial_number, from_user: user.id).call
       end
 
