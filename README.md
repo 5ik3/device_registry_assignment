@@ -1,24 +1,56 @@
 # README
+# Device Registry
 
-Your task is to implement the part of the application that helps track devices assigned to users within an organization.
+## Project Description
 
-For now, we have two ActiveRecord models: User and Device.
-User can have many devices; the device should be active only for one assigned user.
-There are 2 actions a User can take with the Device: assign the device to User or return the Device.
+Device Registry is a Ruby on Rails application designed to manage the assignment of devices to users. Users can register, assign, and return devices, while the system enforces appropriate authorization and validation mechanisms.
 
-Here are the product requirements:
-- User can assign the device only to themself. 
-- User can't assign the device already assigned to another user.
-- Only the user who assigned the device can return it. 
-- If the user returned the device in the past, they can't ever re-assign the same device to themself.
+## Features
 
+- User registration
+- Device assignment to users
+- Device return
+- Authorization checks before executing actions
 
-TODO:
- - Clone this repo to your local machine - DON'T FORK IT.
- - Fix the config, so you can run the test suite properly.
- - Implement the code to make the tests pass for `AssignDeviceToUser` service.
- - Following the product requirements listed above, implement tests for returning the device and then implement the code to make them pass.
- - In case you are missing additional product requirements, use your best judgment. Have fun with it.
- - Refactor at will. Do you see something you don't like? Change it. It's your code. Remember to satisfy the outlined product requirements though.
- - Remember to document your progress using granular commits and meaningful commit messages.
- - Publish your code as a public repo using your Github account.
+## Requirements
+- Ruby 3.2.3
+- SQLite3
+- Ruby on Rails (corresponding version)
+
+## Installation
+
+1. **Clone the repository**:
+
+    ```bash
+    git clone https://github.com/5ik3/device_registry_assignment
+    cd device_registry
+
+2. **Install dependencies**
+    ```bash
+    bundle install
+    ```
+    *if there is a problem with mismatching gem versions please run **gem update**, it should solve the problem*
+
+3. **Set up the database**
+    ```bash
+    rails db:create
+    rails db:migrate
+    ```
+
+4.  **Run the server**
+    ```bash
+    rails server
+    ```
+
+5. **Run the tests**
+    ```bash
+    rspec
+    ```
+
+## Testing
+
+The project includes unit and integration tests written in RSpec. The tests cover various aspects of the business logic, including:
+
+Device assignments to users
+Error verification for unauthorized actions
+Validations in models
