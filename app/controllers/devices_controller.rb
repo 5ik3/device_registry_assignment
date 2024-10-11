@@ -2,13 +2,23 @@
 
 class DevicesController < ApplicationController
   before_action :authenticate_user!, only: %i[assign unassign]
+
   def assign
-    AssignDeviceToUser.new(
-      requesting_user: @current_user,
-      serial_number: params[:serial_number],
-      new_device_owner_id: params[:new_device_owner_id]
+    device = Device.find_by(serial_number: params[:device][:serial_number])
+    if device.nil?
+      render json: { error: 'Device not found' }, status: :not_found
+      return
+    end
+    
+    if AssignDeviceToUser.new(
+      requesting_user: current_user,
+      serial_number: device_params[:serial_number],
+      new_device_owner_id: params[:new_owner_id]
     ).call
-    head :ok
+      head :ok
+    else
+      render json: { error: 'Unauthorized' }, status: :unprocessable_entity # Returns a 422 status code
+    end
   end
 
   def unassign
@@ -18,6 +28,6 @@ class DevicesController < ApplicationController
   private
 
   def device_params
-    params.permit(:new_owner_id, :serial_number)
+    params.require(:device).permit(:serial_number)  # Ensure serial_number is included
   end
 end
